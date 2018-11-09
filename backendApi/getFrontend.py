@@ -1,12 +1,18 @@
-from os import listdir, path
+from os import listdir, path, remove
 from shutil import copy2
 from bs4 import BeautifulSoup
 
-frontend_dir = "..\\frontend\\balistica\\dist\\balistica\\"
+frontend_dir = "..\\frontend\\dist\\balistica\\"
 backend_dir = ".\\backendApi\\"
 
 static = "static"
 templates = "templates"
+
+def DeleteOld():
+    curDir = path.join(backend_dir, static)
+    [remove(path.abspath(path.join(curDir, file))) for file in listdir(curDir)]
+    curDir = path.join(backend_dir, templates)
+    [remove(path.abspath(path.join(curDir, file))) for file in listdir(curDir)]
 
 def copy(frontend_dir, backend_dir):
     files = listdir(frontend_dir)
@@ -31,11 +37,10 @@ def htmlParse():
         for script in scripts:
             # src = script['src']
             script['src'] = "{{ url_for('static', filename='"+script['src']+"') }}"
-        print(soup.prettify())
         f = open(path.join(templates_dir,file),'w')
         f.write(soup.prettify())
     return
 
-
-# copy(frontend_dir, backend_dir)
-# htmlParse()
+DeleteOld()
+copy(frontend_dir, backend_dir)
+htmlParse()
