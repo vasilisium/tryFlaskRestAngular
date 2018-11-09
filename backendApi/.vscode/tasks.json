@@ -1,0 +1,11 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        { 
+            "label": "get_frontend_files",
+            "command": ".\\env\\Scripts\\Activate.ps1;", // Could be any other shell command
+            "args": ["python","getFrontend.py"],
+            "type": "shell"
+        }
+    ]
+}
